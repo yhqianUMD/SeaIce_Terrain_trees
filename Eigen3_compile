@@ -1,0 +1,25 @@
+When compiling the Terrain trees library in a Linux system, the boost library and Eigen3 library are required.
+
+Here is the way to include the boost library:
+# remember to download the boost library and unzip it to the Linux system at first. 
+link to boost: https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/
+
+set(Boost_INCLUDE_DIR /home/qiany/usr/boost)
+set(Boost_LIBRARY_DIR /home/qiany/usr/boost/stage/lib)
+include_directories(${Boost_INCLUDE_DIR})
+
+#~ find_package(Boost REQUIRED)
+
+Here is the way to include the Eigen3 library:
+
+#new:
+include_directories(/home/qiany/usr/Eigen3/)
+#end
+
+Notes:
+We have to way to set the directory to Eigen3. The first one is to directly include it by using "include_directories(/home/qiany/usr/Eigen3/)". The second is to use the find_package() method. If we use the first one, we should not include the Eigen3 again in the target_link_libraries().
+
+e.g.:
+target_link_libraries(terrain_trees _terrain_trees_apps Eigen3::Eigen) # this is wrong when using the first method.
+# Instead, we should use the following directive.
+target_link_libraries(terrain_trees _terrain_trees_apps)
